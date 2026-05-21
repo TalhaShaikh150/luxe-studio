@@ -1,7 +1,7 @@
-import { useLayoutEffect } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from '@studio-freight/lenis';
+import { useLayoutEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import Lenis from "lenis";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -48,45 +48,60 @@ export const useSmoothScroll = (containerRef, isMenuOpen, setIsMenuOpen) => {
         // --- FIRST VISIT (Fresh Tab) ---
         sessionStorage.setItem("hasLoaded", "true");
 
-        tl.to(".loader-bar", { 
-            width: "100%", 
-            duration: 1.2, 
-            ease: "power2.inOut" 
+        tl.to(".loader-bar", {
+          width: "100%",
+          duration: 1.2,
+          ease: "power2.inOut",
         })
-        .to(".loader-text", { 
-            opacity: 1, 
-            y: 0, 
-            duration: 0.5 
-        }, "-=0.2")
-        .to(".loader-wrap", { 
-            y: "-100%", 
-            duration: 1.0, 
-            ease: "power4.inOut", 
-            delay: 0.2 
-        })
-        .to(".collage-text", { 
-            y: "0%", 
-            duration: 1.1, 
-            stagger: 0.05, 
-            ease: "power4.out" 
-        }, "-=0.9")
-        .to(".collage-main", { 
-            scale: 1, 
-            duration: 1.8, 
-            ease: "power2.out" 
-        }, "<")
-        .to([".collage-fade", ".collage-detail"], { 
-            opacity: 1, 
-            y: 0, 
-            duration: 1.0 
-        }, "-=0.8");
-
+          .to(
+            ".loader-text",
+            {
+              opacity: 1,
+              y: 0,
+              duration: 0.5,
+            },
+            "-=0.2",
+          )
+          .to(".loader-wrap", {
+            y: "-100%",
+            duration: 1.0,
+            ease: "power4.inOut",
+            delay: 0.2,
+          })
+          .to(
+            ".collage-text",
+            {
+              y: "0%",
+              duration: 1.1,
+              stagger: 0.05,
+              ease: "power4.out",
+            },
+            "-=0.9",
+          )
+          .to(
+            ".collage-main",
+            {
+              scale: 1,
+              duration: 1.8,
+              ease: "power2.out",
+            },
+            "<",
+          )
+          .to(
+            [".collage-fade", ".collage-detail"],
+            {
+              opacity: 1,
+              y: 0,
+              duration: 1.0,
+            },
+            "-=0.8",
+          );
       } else {
         // --- RETURNING VISIT (Navigating Back) ---
-        
+
         // 1. Instantly hide loader
         gsap.set(".loader-wrap", { display: "none" });
-        
+
         // 2. Instantly set Hero state to "Visible" (No Animation)
         gsap.set(".collage-text", { y: "0%" });
         gsap.set(".collage-main", { scale: 1 });
@@ -94,11 +109,16 @@ export const useSmoothScroll = (containerRef, isMenuOpen, setIsMenuOpen) => {
       }
 
       // 4. Parallax Logic (Standard)
-      if(document.querySelector(".collage-main")) {
+      if (document.querySelector(".collage-main")) {
         gsap.to(".collage-main", {
           yPercent: 20,
           ease: "none",
-          scrollTrigger: { trigger: ".collage-main", start: "top top", end: "bottom top", scrub: true }
+          scrollTrigger: {
+            trigger: ".collage-main",
+            start: "top top",
+            end: "bottom top",
+            scrub: true,
+          },
         });
       }
 
@@ -112,7 +132,12 @@ export const useSmoothScroll = (containerRef, isMenuOpen, setIsMenuOpen) => {
           const speed = col.getAttribute("data-speed");
           gsap.to(col, {
             y: -100 * speed,
-            scrollTrigger: { trigger: "#gallery", start: "top bottom", end: "bottom top", scrub: 1 }
+            scrollTrigger: {
+              trigger: "#gallery",
+              start: "top bottom",
+              end: "bottom top",
+              scrub: 1,
+            },
           });
         });
       });
@@ -122,10 +147,9 @@ export const useSmoothScroll = (containerRef, isMenuOpen, setIsMenuOpen) => {
           opacity: 0,
           y: 50,
           duration: 1,
-          scrollTrigger: { trigger: text, start: "top 85%" }
+          scrollTrigger: { trigger: text, start: "top 85%" },
         });
       });
-
     }, containerRef);
 
     return () => {
